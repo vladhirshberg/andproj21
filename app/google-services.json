@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "780190523761",
+    "project_id": "ourstories-a2929",
+    "storage_bucket": "ourstories-a2929.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:780190523761:android:4be301b9dd05e25b7f16d0",
+        "android_client_info": {
+          "package_name": "com.example.our_stories"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "780190523761-pvce6ikscbnn39i2qb2chk1eb2e1qdhe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMIPiD5nP_rlCkowU_FR0XBXdTSeFhX68"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "780190523761-pvce6ikscbnn39i2qb2chk1eb2e1qdhe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

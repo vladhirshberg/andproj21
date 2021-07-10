@@ -35,7 +35,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:srcCompat="@drawable/appicon" />
-            
+
             <TextView
                 android:id="@+id/activity_register_username_tv"
                 android:layout_width="match_parent"
