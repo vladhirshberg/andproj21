@@ -12,12 +12,15 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Entity
-public class User {
-    @PrimaryKey
+public class Comment {
     @NonNull
+    @PrimaryKey
     private Long id;
-    private String username;
-    private String email;
-    private String password;
-    private String imagePath;
+    @NonNull
+    private Long storyId;
+    private Long chapterNum;
+    private String content;
+    private Long userId;
+    private String date;
+    private Long parentCommentId;
 }

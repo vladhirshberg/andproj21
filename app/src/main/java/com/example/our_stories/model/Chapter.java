@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,12 +14,13 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Entity
-public class User {
-    @PrimaryKey
+public class Chapter {
     @NonNull
-    private Long id;
-    private String username;
-    private String email;
-    private String password;
-    private String imagePath;
+    @PrimaryKey
+    private Long chapterNum;
+    @NonNull
+    @PrimaryKey
+    private Long storyId;
+    private String content;
+    private List<Comment> comments;
 }

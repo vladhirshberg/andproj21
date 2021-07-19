@@ -4,6 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.our_stories.enums.Genre;
+
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,12 +16,17 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Entity
-public class User {
+public class Story {
     @PrimaryKey
     @NonNull
     private Long id;
-    private String username;
-    private String email;
-    private String password;
+    @NonNull
+    private Long authorId;
+    @NonNull
+    private String Name;
+    private String summary;
     private String imagePath;
+    private List<Genre> ganres;
+    private List<Chapter> chapters;
+    private List<Comment> comments;
 }
