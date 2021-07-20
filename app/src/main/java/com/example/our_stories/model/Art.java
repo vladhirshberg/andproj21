@@ -14,14 +14,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Entity
-public class Chapter {
-    @NonNull
-    @PrimaryKey
-    private Long chapterNum;
-    @NonNull
-    @PrimaryKey
+public class Art {
+    private String imagePath;
     private Long storyId;
-    private String content;
-    private List<Comment> comments;
-    private String date;
+    private Long uploaderId;
+    private Boolean isOfficial;
 }

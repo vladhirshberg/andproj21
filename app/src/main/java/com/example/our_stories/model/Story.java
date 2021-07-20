@@ -29,4 +29,5 @@ public class Story {
     private List<Genre> ganres;
     private List<Chapter> chapters;
     private List<Comment> comments;
+    private String date;
 }
