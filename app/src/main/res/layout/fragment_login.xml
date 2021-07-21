@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".auth.LoginFragment"
     android:scrollbars="none">
 
     <ScrollView
@@ -26,7 +27,7 @@
             android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/activity_login_icon_iv"
+                android:id="@+id/login_fragment_icon_iv"
                 android:layout_width="wrap_content"
                 android:layout_height="256dp"
                 android:layout_marginTop="32dp"
@@ -36,7 +37,7 @@
                 app:srcCompat="@drawable/appicon" />
 
             <EditText
-                android:id="@+id/activity_login_username_tv"
+                android:id="@+id/login_fragment_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -45,14 +46,14 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:ems="10"
+                android:hint="Username"
                 android:inputType="textPersonName"
-                android:text="Username / Email"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/activity_login_icon_iv" />
+                app:layout_constraintTop_toBottomOf="@+id/login_fragment_icon_iv" />
 
             <EditText
-                android:id="@+id/activity_login_passwd_tv"
+                android:id="@+id/login_fragment_pass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -61,13 +62,14 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginRight="16dp"
                 android:ems="10"
+                android:hint="Password"
                 android:inputType="textPassword"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/activity_login_login_btn"
+                android:id="@+id/login_fragment_login_btn"
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -84,7 +86,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/activity_login_register_btn"
+                android:id="@+id/login_fragment_register_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -98,7 +100,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <Button
-                android:id="@+id/activity_login_google_login_btn"
+                android:id="@+id/login_fragment_google_login_btn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -113,4 +115,4 @@
         </LinearLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
