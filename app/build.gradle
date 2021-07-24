@@ -41,6 +41,8 @@ apply plugin: 'com.google.gms.google-services'
 dependencies {
 
     implementation "androidx.multidex:multidex:2.0.1"
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
+    implementation 'com.google.firebase:firebase-firestore:23.0.2'
 
     def nav_version = "2.3.5"
     // Java language implementation

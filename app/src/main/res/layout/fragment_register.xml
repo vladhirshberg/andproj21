@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".auth.RegisterFragment"
+    android:scrollbars="none">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -27,43 +29,55 @@
 
             <ImageView
                 android:id="@+id/register_fragment_user_image"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="256dp"
                 android:layout_marginTop="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/appicon" />
+                app:srcCompat="@drawable/appicon"/>
 
             <ImageButton
                 android:id="@+id/register_fragment_edit_image_btn"
                 android:layout_width="57dp"
                 android:layout_height="49dp"
                 android:src="@drawable/ic_menu_camera"
-                android:text="edit"
                 app:layout_constraintBottom_toBottomOf="@+id/register_fragment_user_image"
                 app:layout_constraintEnd_toEndOf="@+id/register_fragment_user_image" />
 
+            <ProgressBar
+                android:id="@+id/register_fragment_prog_bar"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:layout_centerInParent="true"/>
+
             <EditText
                 android:id="@+id/register_fragment_username"
+                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:inputType="text"
                 android:hint="Username" />
 
             <EditText
                 android:id="@+id/register_fragment_email"
+                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
+                android:inputType="text"
                 android:hint="Email" />
 
             <EditText
                 android:id="@+id/register_fragment_pass"
+                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -75,6 +89,7 @@
 
             <EditText
                 android:id="@+id/register_fragment_pass_confirm"
+                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

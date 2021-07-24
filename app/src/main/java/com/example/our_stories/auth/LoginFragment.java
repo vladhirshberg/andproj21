@@ -12,8 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.our_stories.R;
+import com.example.our_stories.firebase_model.FirebaseModelUser;
+import com.example.our_stories.model.Model;
+import com.example.our_stories.model.User;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,37 +29,73 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.concurrent.Executor;
+
 
 public class LoginFragment extends Fragment {
 
-    EditText username;
+    EditText email;
     EditText password;
     Button loginBtn;
     Button registerBtn;
     View view;
-    private FirebaseAuth mAuth;
+    ProgressBar progress;
+
+    public LoginFragment() {
+        // Required empty public constructor
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+
+        Model.getInstance().getCurrentUser(new FirebaseModelUser.IGetUserListener() {
+            @Override
+            public void onComplete() {
+
+            }
+        });
+        if(Model.getInstance().currentUser != null){
+            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment);
+        }
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        progress.setVisibility(View.INVISIBLE);
+        email.setText("");
+        password.setText("");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false);
 
-        username = this.view.findViewById(R.id.login_fragment_username);
+        email = this.view.findViewById(R.id.login_fragment_username);
         password = this.view.findViewById(R.id.login_fragment_pass);
         registerBtn = this.view.findViewById(R.id.login_fragment_register_btn);
         loginBtn = this.view.findViewById(R.id.login_fragment_login_btn);
-        mAuth = FirebaseAuth.getInstance();
+        progress = this.view.findViewById(R.id.login_fragment_prog_bar);
 
         registerBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Log.d("TAG", "click on register btn");
-                clickRegister(view);
+                clickRegister();
+            }
+        });
+
+        loginBtn.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                clickLogin();
             }
         });
 
@@ -63,24 +104,23 @@ public class LoginFragment extends Fragment {
 
     // This function handles login of existing user
     public void clickLogin (){
+        progress.setVisibility(View.VISIBLE);
+        Model.getInstance().userLogin(email.getText().toString(), password.getText().toString(), new FirebaseModelUser.IGetUserListener() {
+            @Override
+            public void onComplete() {
+                progress.setVisibility(View.INVISIBLE);
+                if (Model.getInstance().currentUser != null) {
+                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment);
+                } else {
+                    Toast.makeText(getActivity(), "Invalid parameters for login", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     // This function opens the Add new member activity
-    public void clickRegister (View view) {
-        Log.d("TAG", "click on register btn");
+    public void clickRegister () {
         Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_registerFragment);
-    }
-
-
-    public LoginFragment() {
-        // Required empty public constructor
-    }
-
-    public void onStart() {
-        super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        //updateUI(currentUser);
     }
 
     public void googleSignIn(){
@@ -89,10 +129,6 @@ public class LoginFragment extends Fragment {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-    }
-
-    public void signOut(){
-        FirebaseAuth.getInstance().signOut();
     }
 
 //    private void firebaseAuthWithGoogle(String idToken) {

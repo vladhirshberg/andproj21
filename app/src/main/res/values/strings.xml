@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Our Stories</string>
+    <string name="image_edit_title">Edit Profile Picture</string>
+    <string-array name="image_array">
+        <item>Gallery</item>
+        <item>Camera</item>
+        <item>Cancel</item>
+    </string-array>
+
+
+
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
