@@ -51,6 +51,7 @@ public class NewStoryFragment extends Fragment {
     static final int REQUEST_IMAGE_CAMERA = 2;
     private View view;
     private EditText title;
+    private EditText summary;
     private ImageButton imageEditBtn;
     private ImageView imageV;
     private Bitmap mainImage;
@@ -101,6 +102,8 @@ public class NewStoryFragment extends Fragment {
         createBtn = view.findViewById(R.id.fragment_new_story_create_btn);
         progress = view.findViewById(R.id.fragment_new_story_prog_bar);
         title = view.findViewById(R.id.fragment_new_story_title);
+        summary = view.findViewById(R.id.fragment_new_story_summary);
+
         actionCB = view.findViewById(R.id.fragment_new_story_action_checkBox);
         adventureCB = view.findViewById(R.id.fragment_new_story_adventure_checkBox);
         horrorCB = view.findViewById(R.id.fragment_new_story_horror_checkBox);
@@ -147,11 +150,13 @@ public class NewStoryFragment extends Fragment {
             progress.setVisibility(View.VISIBLE);
             newStory.setTitle(title.getText().toString());
             newStory.setId(fb.getNextId());
-            Model.getInstance().addStory(newStory, mainImage, new FirebaseModelStory.IAddStory() {
+            Model.instance.addStory(newStory, mainImage, new FirebaseModelStory.IAddStory() {
                 @Override
                 public void onComplete() {
                     progress.setVisibility(View.INVISIBLE);
-                    //Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_mainPage);
+                    Bundle args = new Bundle();
+                    args.putString("storyId", newStory.getId());
+                    Navigation.findNavController(view).navigate(R.id.action_newStoryFragment_to_storyPage, args);
                 }
             });
         }

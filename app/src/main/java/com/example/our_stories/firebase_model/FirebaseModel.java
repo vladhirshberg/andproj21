@@ -15,12 +15,18 @@ public class FirebaseModel {
 
     ValueEventListener eventListener;
 
-    private FirebaseModelUser firebaseModelUser;
-    private FirebaseModelStory firebaseModelStory;
+    public static FirebaseModel fbInstance = new FirebaseModel();
+
+    public static FirebaseModelUser firebaseModelUser;
+    public static FirebaseModelStory firebaseModelStory;
+    public static FirebaseModelChapter firebaseModelChapter;
+    public static FirebaseModelComment firebaseModelComment;
 
     public FirebaseModel(){
         firebaseModelUser = new FirebaseModelUser();
         firebaseModelStory = new FirebaseModelStory();
+        firebaseModelChapter = new FirebaseModelChapter();
+        firebaseModelComment = new FirebaseModelComment();
     }
 
     public void addUser(User newUser, Bitmap image, final FirebaseModelUser.IGetUserListener listener) {

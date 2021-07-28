@@ -70,5 +70,21 @@
         android:id="@+id/newStoryFragment"
         android:name="com.example.our_stories.fragments.NewStoryFragment"
         android:label="fragment_new_story"
-        tools:layout="@layout/fragment_new_story" />
+        tools:layout="@layout/fragment_new_story" >
+        <action
+            android:id="@+id/action_newStoryFragment_to_storyPage"
+            app:destination="@id/storyPage">
+            <argument
+                android:name="storyId"
+                app:argType="string"/>
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/storyPage"
+        android:name="com.example.our_stories.fragments.StoryPage"
+        android:label="StoryPage">
+        <argument
+            android:name="storyId"
+            app:argType="string"/>
+    </fragment>
 </navigation>

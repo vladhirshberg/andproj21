@@ -17,7 +17,7 @@ public class UserProfileViewModel extends ViewModel {
 
     public User getUserById(String userId){
         selectedUser = null;
-        Model.getInstance().getUserById(userId,new FirebaseModelUser.IGetUserByIdCallback() {
+        Model.instance.getUserById(userId,new FirebaseModelUser.IGetUserByIdCallback() {
             @Override
             public void onComplete(User user) {
                 selectedUser = user;

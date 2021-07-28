@@ -18,17 +18,14 @@ import java.util.concurrent.Executors;
 public class Model {
     ExecutorService executorService = Executors.newSingleThreadExecutor();
     public static String userId = null;
-    FirebaseModel firebaseModel;
+    public static FirebaseModel firebaseModel;
 
     public static Model instance = new Model();
 
     private Model(){
-        firebaseModel = new FirebaseModel();
+        firebaseModel = FirebaseModel.fbInstance;
     }
 
-    public static Model getInstance() {
-        return instance;
-    }
 
     public void addUser(User newUser, Bitmap avatar, FirebaseModelUser.IGetUserListener listener) {
         firebaseModel.addUser(newUser, avatar, listener);

@@ -38,12 +38,12 @@ public class FirebaseModelUser extends FirebaseGeneral{
     public void getCurrentUser(IGetUserListener listener) {
         final FirebaseUser firebaseUser = mAuth.getCurrentUser();
         if (firebaseUser == null) {
-            Model.getInstance().userId = null;
+            Model.instance.userId = null;
             listener.onComplete();
         }
         else {
             Log.d("dev","getCurrentUser ModelUserFirebase "+ firebaseUser.getUid());
-            Model.getInstance().userId = firebaseUser.getUid();
+            Model.instance.userId = firebaseUser.getUid();
         }
     }
 
@@ -85,7 +85,7 @@ public class FirebaseModelUser extends FirebaseGeneral{
                                 Log.d("TAG", "createUserWithEmailAndPassword:success");
                                 db.collection(USERS_KEY).document(newUser.id)
                                         .set(newUser.toJson());
-                                Model.getInstance().userId = firebaseUser.getUid();
+                                Model.instance.userId = firebaseUser.getUid();
                                 listener.onComplete();
                             }
                         });
@@ -106,11 +106,11 @@ public class FirebaseModelUser extends FirebaseGeneral{
                         if (task.isSuccessful()) {
                             Log.d("TAG", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            Model.getInstance().userId = user.getUid();
+                            Model.instance.userId = user.getUid();
                             listener.onComplete();
                         } else {
                             Log.w("TAG", "signInWithEmail:failure", task.getException());
-                            Model.getInstance().userId = null;
+                            Model.instance.userId = null;
                             listener.onComplete();
                         }
                     }
@@ -125,6 +125,6 @@ public class FirebaseModelUser extends FirebaseGeneral{
     public void signOut()
     {
         mAuth.signOut();
-        Model.getInstance().userId = null;
+        Model.instance.userId = null;
     }
 }

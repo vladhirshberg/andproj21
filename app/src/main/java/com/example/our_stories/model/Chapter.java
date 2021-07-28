@@ -20,7 +20,8 @@ public class Chapter {
     private Long chapterNum;
     @NonNull
     @PrimaryKey
-    private Long storyId;
+    private String storyId;
+    private String title;
     private String content;
     private List<Comment> comments;
     private String date;

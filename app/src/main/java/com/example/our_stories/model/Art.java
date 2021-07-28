@@ -16,7 +16,7 @@ import lombok.Setter;
 @Entity
 public class Art {
     private String imagePath;
-    private Long storyId;
-    private Long uploaderId;
+    private String storyId;
+    private String uploaderId;
     private Boolean isOfficial;
 }

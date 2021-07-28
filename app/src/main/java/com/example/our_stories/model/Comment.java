@@ -15,12 +15,11 @@ import lombok.Setter;
 public class Comment {
     @NonNull
     @PrimaryKey
-    private Long id;
+    private String id;
     @NonNull
-    private Long storyId;
+    private String storyId;
     private Long chapterNum;
     private String content;
-    private Long userId;
+    private String userId;
     private String date;
-    private Long parentCommentId;
 }

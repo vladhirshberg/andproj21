@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import com.example.our_stories.enums.Genre;
 import com.example.our_stories.model.Model;
 import com.example.our_stories.model.Story;
+import com.example.our_stories.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +18,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -35,6 +37,28 @@ public class FirebaseModelStory extends FirebaseGeneral{
     }
 
     private LiveData<List<Story>> storiesList;
+
+    public interface IGetStory
+    {
+        void onComplete(Story story);
+    }
+
+    public void getStoryById(String storyId, FirebaseModelStory.IGetStory listener) {
+        if(storyId == null){
+            listener.onComplete(null);
+        }
+        Log.d("TAG", "getting user by id from firebase");
+        storiesReference.document(storyId).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                Story story = null;
+                if (task.isSuccessful()){
+                    story = Story.create(task.getResult().getData());
+                }
+                listener.onComplete(story);
+            }
+        });
+    }
 
     public interface IGetStories
     {

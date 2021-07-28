@@ -111,11 +111,11 @@ public class RegisterFragment extends Fragment {
         if (allChecks()){
             progress.setVisibility(View.VISIBLE);
             newUser = User.builder().id("0").email(email.getText().toString()).username(username.getText().toString()).password(password.getText().toString()).build();
-            Model.getInstance().addUser(newUser, avatarData, new FirebaseModelUser.IGetUserListener() {
+            Model.instance.addUser(newUser, avatarData, new FirebaseModelUser.IGetUserListener() {
                 @Override
                 public void onComplete() {
                     progress.setVisibility(View.INVISIBLE);
-                    if(Model.getInstance().userId != null){
+                    if(Model.instance.userId != null){
                         Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_mainPage);
                     }
                 }

@@ -80,7 +80,7 @@ public class UserProfile extends Fragment {
     }
 
     private void setProfileInfo(String userId){
-        Model.getInstance().getUserById(userId, new FirebaseModelUser.IGetUserByIdCallback() {
+        Model.instance.getUserById(userId, new FirebaseModelUser.IGetUserByIdCallback() {
             @Override
             public void onComplete(User result) {
                 if (result != null){

@@ -45,7 +45,7 @@ public class LoginFragment extends Fragment {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
 
-        Model.getInstance().getCurrentUser(new FirebaseModelUser.IGetUserListener() {
+        Model.instance.getCurrentUser(new FirebaseModelUser.IGetUserListener() {
             @Override
             public void onComplete() {
 
@@ -97,11 +97,11 @@ public class LoginFragment extends Fragment {
     // This function handles login of existing user
     public void clickLogin (){
         progress.setVisibility(View.VISIBLE);
-        Model.getInstance().userLogin(email.getText().toString(), password.getText().toString(), new FirebaseModelUser.IGetUserListener() {
+        Model.instance.userLogin(email.getText().toString(), password.getText().toString(), new FirebaseModelUser.IGetUserListener() {
             @Override
             public void onComplete() {
                 progress.setVisibility(View.INVISIBLE);
-                if (Model.getInstance().userId != null) {
+                if (Model.instance.userId != null) {
                     Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_mainPage);
                 } else {
                     Toast.makeText(getActivity(), "Invalid parameters for login", Toast.LENGTH_SHORT).show();
