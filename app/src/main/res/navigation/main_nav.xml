@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/loginFragment"
+    app:startDestination="@id/userProfile"
     app:defaultNavHost="true">
 
     <fragment
@@ -15,11 +15,8 @@
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_homeFragment"
-            app:destination="@id/homeFragment" />
-        <argument
-            android:name="userId"
-            app:argType="string" />
+            android:id="@+id/action_loginFragment_to_mainPage"
+            app:destination="@id/mainPage" />
     </fragment>
 
     <fragment
@@ -28,15 +25,50 @@
         android:label="fragment_login"
         tools:layout="@layout/fragment_register" >
         <action
-            android:id="@+id/action_registerFragment_to_homeFragment"
-            app:destination="@id/homeFragment"/>
-        <argument
-            android:name="userId"
-            app:argType="string" />
+            android:id="@+id/action_registerFragment_to_mainPage"
+            app:destination="@id/mainPage"/>
     </fragment>
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="com.example.our_stories.HomeFragment"
-        android:label="fragment_story_list"
-        tools:layout="@layout/fragment_story_list" />
+        android:id="@+id/mainPage"
+        android:name="com.example.our_stories.fragments.MainPage"
+        android:label="fragment_main_page"
+        tools:layout="@layout/fragment_main_page" >
+        <action
+            android:id="@+id/action_mainPage_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_mainPage_to_userProfile"
+            app:destination="@id/userProfile">
+            <argument
+                android:name="userId"
+                app:argType="string"/>
+        </action>
+
+    </fragment>
+    <fragment
+        android:id="@+id/userProfile"
+        android:name="com.example.our_stories.fragments.UserProfile"
+        android:label="fragment_user_profile"
+        tools:layout="@layout/fragment_user_profile">
+        <argument
+            android:name="userId"
+            app:argType="string"/>
+        <action
+            android:id="@+id/action_userProfile_to_newStoryFragment"
+            app:destination="@id/newStoryFragment">
+            <argument
+                android:name="userId"
+                app:argType="string"/>
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/storiesFragment"
+        android:name="com.example.our_stories.fragments.StoriesFragment"
+        android:label="stories_fragment"
+        tools:layout="@layout/stories_fragment" />
+    <fragment
+        android:id="@+id/newStoryFragment"
+        android:name="com.example.our_stories.fragments.NewStoryFragment"
+        android:label="fragment_new_story"
+        tools:layout="@layout/fragment_new_story" />
 </navigation>

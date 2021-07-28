@@ -8,6 +8,5 @@ public enum Genre {
     HORROR,
     FICTION,
     ROMANCE,
-    MYSTERY,
-    SCIFI
+    MYSTERY
 }

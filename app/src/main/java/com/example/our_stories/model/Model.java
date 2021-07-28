@@ -66,8 +66,8 @@ public class Model {
 
     MutableLiveData<List<Story>> stories = new MutableLiveData<List<Story>>(new LinkedList<Story>());
 
-    public void addStory(Story newStory, Bitmap mainImage, FirebaseModelStory.IGetStories listener) {
-        firebaseModel.addUser(newUser, avatar, listener);
+    public void addStory(Story newStory, Bitmap mainImage, FirebaseModelStory.IAddStory listener) {
+        firebaseModel.addStory(newStory, mainImage, listener);
     }
 
 //    public LiveData<List<Story>> getAllStories() {

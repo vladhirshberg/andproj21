@@ -3,6 +3,7 @@ package com.example.our_stories.firebase_model;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.example.our_stories.model.Story;
 import com.example.our_stories.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -15,9 +16,11 @@ public class FirebaseModel {
     ValueEventListener eventListener;
 
     private FirebaseModelUser firebaseModelUser;
+    private FirebaseModelStory firebaseModelStory;
 
     public FirebaseModel(){
         firebaseModelUser = new FirebaseModelUser();
+        firebaseModelStory = new FirebaseModelStory();
     }
 
     public void addUser(User newUser, Bitmap image, final FirebaseModelUser.IGetUserListener listener) {
@@ -52,5 +55,9 @@ public class FirebaseModel {
                 listener.onComplete(user);
             }
         });
+    }
+
+    public void addStory(Story newStory, Bitmap mainImage, FirebaseModelStory.IAddStory listener) {
+        firebaseModelStory.addStory(newStory, mainImage, listener);
     }
 }
