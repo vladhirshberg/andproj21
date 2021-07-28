@@ -23,6 +23,7 @@ public abstract class FirebaseGeneral {
 
     public static void uploadImage(Bitmap imageBmp, String collection, String name, final UploadImageListener listener){
         if (imageBmp == null || collection == null || name == null){
+            listener.onComplete(null);
             return;
         }
         FirebaseStorage storage = FirebaseStorage.getInstance();

@@ -35,12 +35,12 @@ public class User {
         return json;
     }
 
-    static public User create(Map<String,Object> json) {
-        User st = new User();
-        st.id = (String)json.get("id");
-        st.username = (String)json.get("username");
-        st.email = (String)json.get("email");
-        st.imagePath = (String)json.get("imagePath");
-        return st;
+    public static User create(Map<String,Object> json) {
+        User user = new User();
+        user.id = (String)json.get("id");
+        user.username = (String)json.get("username");
+        user.email = (String)json.get("email");
+        user.imagePath = (String)json.get("imagePath");
+        return user;
     }
 }

@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -22,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.our_stories.firebase_model.FirebaseModel;
 import com.example.our_stories.firebase_model.FirebaseModelUser;
 import com.example.our_stories.model.Model;
 import com.example.our_stories.model.User;
@@ -65,7 +65,7 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_register, container, false);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         username = view.findViewById(R.id.register_fragment_username);
         email = view.findViewById(R.id.register_fragment_email);
         password = view.findViewById(R.id.register_fragment_pass);
@@ -115,8 +115,8 @@ public class RegisterFragment extends Fragment {
                 @Override
                 public void onComplete() {
                     progress.setVisibility(View.INVISIBLE);
-                    if(Model.getInstance().currentUser != null){
-                        Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_homeFragment);
+                    if(Model.getInstance().userId != null){
+                        Navigation.findNavController(view).navigate(R.id.action_registerFragment_to_mainPage);
                     }
                 }
             });

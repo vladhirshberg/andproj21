@@ -2,11 +2,10 @@ package com.example.our_stories.auth;
 
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,18 +17,9 @@ import android.widget.Toast;
 import com.example.our_stories.R;
 import com.example.our_stories.firebase_model.FirebaseModelUser;
 import com.example.our_stories.model.Model;
-import com.example.our_stories.model.User;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.GoogleAuthProvider;
 
-import java.util.concurrent.Executor;
+import static java.lang.Thread.sleep;
 
 
 public class LoginFragment extends Fragment {
@@ -61,9 +51,10 @@ public class LoginFragment extends Fragment {
 
             }
         });
-        if(Model.getInstance().currentUser != null){
-            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment);
-        }
+
+//        if(Model.getInstance().UserId != null){
+//            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_mainPage);
+//        }
     }
 
     @Override
@@ -71,6 +62,7 @@ public class LoginFragment extends Fragment {
     {
         super.onResume();
         progress.setVisibility(View.INVISIBLE);
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         email.setText("");
         password.setText("");
     }
@@ -78,7 +70,7 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false);
-
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         email = this.view.findViewById(R.id.login_fragment_username);
         password = this.view.findViewById(R.id.login_fragment_pass);
         registerBtn = this.view.findViewById(R.id.login_fragment_register_btn);
@@ -109,8 +101,8 @@ public class LoginFragment extends Fragment {
             @Override
             public void onComplete() {
                 progress.setVisibility(View.INVISIBLE);
-                if (Model.getInstance().currentUser != null) {
-                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_homeFragment);
+                if (Model.getInstance().userId != null) {
+                    Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_mainPage);
                 } else {
                     Toast.makeText(getActivity(), "Invalid parameters for login", Toast.LENGTH_SHORT).show();
                 }
