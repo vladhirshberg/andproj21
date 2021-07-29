@@ -52,9 +52,9 @@ public class LoginFragment extends Fragment {
             }
         });
 
-//        if(Model.getInstance().UserId != null){
-//            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_mainPage);
-//        }
+        if(Model.instance.userId != null){
+            Navigation.findNavController(view).navigate(R.id.action_loginFragment_to_mainPage);
+        }
     }
 
     @Override
@@ -62,7 +62,6 @@ public class LoginFragment extends Fragment {
     {
         super.onResume();
         progress.setVisibility(View.INVISIBLE);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         email.setText("");
         password.setText("");
     }
@@ -70,7 +69,6 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         email = this.view.findViewById(R.id.login_fragment_username);
         password = this.view.findViewById(R.id.login_fragment_pass);
         registerBtn = this.view.findViewById(R.id.login_fragment_register_btn);

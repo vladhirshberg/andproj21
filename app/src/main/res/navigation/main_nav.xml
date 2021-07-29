@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/userProfile"
+    app:startDestination="@id/loginFragment"
     app:defaultNavHost="true">
 
     <fragment
@@ -60,6 +60,9 @@
                 android:name="userId"
                 app:argType="string"/>
         </action>
+        <action
+            android:id="@+id/action_userProfile_self"
+            app:destination="@id/userProfile" />
     </fragment>
     <fragment
         android:id="@+id/storiesFragment"
@@ -86,5 +89,23 @@
         <argument
             android:name="storyId"
             app:argType="string"/>
+        <action
+            android:id="@+id/action_storyPage_to_chapterFragment"
+            app:destination="@id/chapterFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/chapterFragment"
+        android:name="com.example.our_stories.fragments.ChapterFragment"
+        android:label="chapter_fragment"
+        tools:layout="@layout/chapter_fragment">
+        <argument
+            android:name="storyId"
+            app:argType="string"/>
+        <argument
+            android:name="chapterNum"
+            app:argType="Long"/>
+    </fragment>
+    <action android:id="@+id/action_global_user_profile" app:destination="@id/userProfile" />
+    <action android:id="@+id/action_global_home" app:destination="@id/mainPage" />
+    <action android:id="@+id/nav_logout" app:destination="@id/loginFragment"/>
 </navigation>

@@ -29,8 +29,8 @@ public class Chapter {
     private String storyId;
     private String title;
     private String contentPath;
-    private List<Comment> comments;
     private Long date;
+    private String chapterId;
 
     public Map<String,Object> toJson(){
         Map<String, Object> json = new HashMap<>();
@@ -39,6 +39,7 @@ public class Chapter {
         json.put("title", this.title);
         json.put("contentPath", this.contentPath);
         json.put("date", System.currentTimeMillis());
+        json.put("chapterId", this.chapterId);
         return json;
     }
 
@@ -49,6 +50,7 @@ public class Chapter {
         chapter.title = (String)json.get("title");
         chapter.contentPath = (String)json.get("contentPath");
         chapter.date = (Long)json.get("date");
+        chapter.chapterId = (String)json.get("chapterId");
         return chapter;
     }
 }

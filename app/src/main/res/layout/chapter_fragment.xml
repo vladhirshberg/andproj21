@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.ChapterFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/chapter_fragment_title_tv"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"
+                android:layout_marginTop="32sp"
+                android:text="Title"/>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="fill_horizontal">
+                <TextView
+                    android:id="@+id/chapter_fragment_prev_tv"
+                    android:layout_width="match_parent"
+                    android:gravity="left"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/add_comment"
+                    android:text="prev"/>
+
+                <TextView
+                    android:id="@+id/chapter_fragment_next_tv"
+                    android:layout_width="match_parent"
+                    android:gravity="right"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/add_comment"
+                    android:text="next"/>
+            </FrameLayout>
+            <TextView
+                android:id="@+id/chapter_fragment_content_tv"
+                android:layout_width="match_parent"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:textColor="@color/add_comment"
+                android:inputType="text|textMultiLine|textImeMultiLine"
+                android:text="content"/>
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="fill_horizontal">
+                <TextView
+                    android:id="@+id/chapter_fragment_prev_bot_tv"
+                    android:layout_width="match_parent"
+                    android:gravity="left"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/add_comment"
+                    android:text="prev"/>
+
+                <TextView
+                    android:id="@+id/chapter_fragment_next_bot_tv"
+                    android:layout_width="match_parent"
+                    android:gravity="right"
+                    android:layout_height="wrap_content"
+                    android:textSize="12sp"
+                    android:textColor="@color/add_comment"
+                    android:text="next"/>
+            </FrameLayout>
+            <include layout="@layout/comments_layout"></include>
+        </LinearLayout>
+
+    </ScrollView>
+</FrameLayout>

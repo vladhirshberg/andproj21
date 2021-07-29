@@ -23,6 +23,19 @@ public class Model {
     MutableLiveData<List<Story>> stories = new MutableLiveData<List<Story>>(new LinkedList<Story>());
     MutableLiveData<List<User>> users = new MutableLiveData<List<User>>(new LinkedList<User>());
 
+    public LiveData<List<User>> getAllUsers() {
+        FirebaseModel.fbInstance.firebaseModelUser.getAllUsers((usersData) -> {
+            users.setValue(usersData);
+        });
+        return users;
+    }
+
+    public LiveData<List<Story>> getAllStories() {
+        FirebaseModel.fbInstance.firebaseModelStory.getAllStories((storiesData) -> {
+            stories.setValue(storiesData);
+        });
+        return stories;
+    }
 
     public static Model instance = new Model();
 
@@ -69,11 +82,4 @@ public class Model {
     public void addStory(Story newStory, Bitmap mainImage, FirebaseModelStory.IAddStory listener) {
         firebaseModel.addStory(newStory, mainImage, listener);
     }
-
-//    public LiveData<List<Story>> getAllStories() {
-//        FirebaseModel.getAllStories((storiesResult) -> {
-//            stories.setValue(storiesResult);
-//        });
-//        return allStudents;
-//    }
 }

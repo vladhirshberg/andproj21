@@ -44,17 +44,15 @@ import lombok.Setter;
 public class Story {
     @PrimaryKey
     @NonNull
-    private String id;
+    public String id;
     @NonNull
-    private String authorId;
+    public String authorId;
     @NonNull
-    private String title;
-    private String summary;
-    private String imagePath;
-    private List<Genre> genres;
-    private List<Chapter> chapters;
-    private List<Comment> comments;
-    private Long date;
+    public String title;
+    public String summary;
+    public String imagePath;
+    public List<Genre> genres;
+    public Long date;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Map<String,Object> toJson() {

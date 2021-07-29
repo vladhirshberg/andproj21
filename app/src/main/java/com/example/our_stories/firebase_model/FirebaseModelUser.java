@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.example.our_stories.model.Model;
+import com.example.our_stories.model.Story;
 import com.example.our_stories.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -15,7 +16,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Thread.sleep;
 
@@ -120,6 +125,26 @@ public class FirebaseModelUser extends FirebaseGeneral{
         {
             listener.onComplete();
         }
+    }
+
+    public interface IGetAllUsersCallback {
+        void onComplete(List<User> users);
+    }
+
+    public void getAllUsers(final IGetAllUsersCallback listener) {
+        usersReference.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                List<User> users = null;
+                if (task.isSuccessful()){
+                    users = new ArrayList<>();
+                    for (QueryDocumentSnapshot userDocument : task.getResult()) {
+                        users.add(User.create(userDocument.getData()));
+                    }
+                }
+                listener.onComplete(users);
+            }
+        });
     }
 
     public void signOut()

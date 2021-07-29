@@ -44,6 +44,7 @@ public class ChapterRecyclerAdapter extends RecyclerView.Adapter<ChapterRecycler
         holder.date.setText(zdt.toString());
         holder.chapterNum.setText(chapter.getChapterNum().toString());
         holder.Title.setText(chapter.getTitle());
+        holder.chapterId = chapter.getChapterId();
     }
 
     // total number of rows
@@ -58,6 +59,7 @@ public class ChapterRecyclerAdapter extends RecyclerView.Adapter<ChapterRecycler
         TextView Title;
         TextView chapterNum;
         TextView date;
+        String chapterId;
 
         ChapterViewHolder(View itemView) {
             super(itemView);
