@@ -16,7 +16,7 @@
             app:destination="@id/registerFragment" />
         <action
             android:id="@+id/action_loginFragment_to_mainPage"
-            app:destination="@id/mainPage" />
+            app:destination="@id/storiesFragment" />
     </fragment>
 
     <fragment
@@ -26,13 +26,13 @@
         tools:layout="@layout/fragment_register" >
         <action
             android:id="@+id/action_registerFragment_to_mainPage"
-            app:destination="@id/mainPage"/>
+            app:destination="@id/storiesFragment"/>
     </fragment>
     <fragment
-        android:id="@+id/mainPage"
-        android:name="com.example.our_stories.fragments.MainPage"
-        android:label="fragment_main_page"
-        tools:layout="@layout/fragment_main_page" >
+        android:id="@+id/storiesFragment"
+        android:name="com.example.our_stories.fragments.StoriesFragment"
+        android:label="stories_fragment"
+        tools:layout="@layout/stories_fragment">
         <action
             android:id="@+id/action_mainPage_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -43,6 +43,9 @@
                 android:name="userId"
                 app:argType="string"/>
         </action>
+        <action
+            android:id="@+id/action_storiesFragment_to_storyPage"
+            app:destination="@id/storyPage" />
 
     </fragment>
     <fragment
@@ -64,11 +67,6 @@
             android:id="@+id/action_userProfile_self"
             app:destination="@id/userProfile" />
     </fragment>
-    <fragment
-        android:id="@+id/storiesFragment"
-        android:name="com.example.our_stories.fragments.StoriesFragment"
-        android:label="stories_fragment"
-        tools:layout="@layout/stories_fragment" />
     <fragment
         android:id="@+id/newStoryFragment"
         android:name="com.example.our_stories.fragments.NewStoryFragment"
@@ -106,7 +104,7 @@
             app:argType="string"/>
     </fragment>
     <action android:id="@+id/action_global_user_profile" app:destination="@id/userProfile" />
-    <action android:id="@+id/action_global_home" app:destination="@id/mainPage" />
+    <action android:id="@+id/action_global_home" app:destination="@id/storiesFragment" />
     <action android:id="@+id/nav_logout" app:destination="@id/loginFragment">
         <argument
             android:name="logout"

@@ -86,4 +86,8 @@ public class FirebaseModel {
     public void getChapterContentById(String chapterId, FirebaseModelChapter.IGetChapterContentListener listener){
         firebaseModelChapter.getChapterContentById(chapterId, listener);
     }
+
+    public void getAllStories(FirebaseModelStory.IGetStories listener) {
+        firebaseModelStory.getAllStories(listener);
+    }
 }

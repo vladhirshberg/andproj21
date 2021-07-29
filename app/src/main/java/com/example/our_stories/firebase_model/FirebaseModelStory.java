@@ -17,11 +17,16 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.core.DocumentViewChange;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +42,17 @@ public class FirebaseModelStory extends FirebaseGeneral{
     }
 
     private LiveData<List<Story>> storiesList;
+
+    private static void onEvent(DocumentSnapshot snapshot, FirebaseFirestoreException e) {
+        if (e != null) {
+            return;
+        }
+
+        if (snapshot != null && snapshot.exists()) {
+
+        } else {
+        }
+    }
 
     public interface IGetStory
     {
@@ -63,6 +79,27 @@ public class FirebaseModelStory extends FirebaseGeneral{
     public interface IGetStories
     {
         void onComplete(List<Story> stories);
+    }
+
+    public void addStoriesListener(IGetStories listener) {
+        storiesReference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot snapshots,
+                                @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    return;
+                }
+
+                for (DocumentChange dc : snapshots.getDocumentChanges()) {
+                    if (dc.getType() == DocumentChange.Type.ADDED) {
+                        List<Story> storyList = Model.instance.stories.getValue();
+                        storyList.add(Story.create(dc.getDocument().getData()));
+                        Model.instance.stories.setValue(storyList);
+                    }
+                }
+
+            }
+        });
     }
 
     public void getAllStories(IGetStories listener) {

@@ -20,8 +20,8 @@ public class Model {
     public static String userId = null;
     public static FirebaseModel firebaseModel;
 
-    MutableLiveData<List<Story>> stories = new MutableLiveData<List<Story>>(new LinkedList<Story>());
-    MutableLiveData<List<User>> users = new MutableLiveData<List<User>>(new LinkedList<User>());
+    public MutableLiveData<List<Story>> stories = new MutableLiveData<List<Story>>(new LinkedList<Story>());
+    public MutableLiveData<List<User>> users = new MutableLiveData<List<User>>(new LinkedList<User>());
 
     public LiveData<List<User>> getAllUsers() {
         FirebaseModel.fbInstance.firebaseModelUser.getAllUsers((usersData) -> {
@@ -31,6 +31,10 @@ public class Model {
     }
 
     public LiveData<List<Story>> getAllStories() {
+        return stories;
+    }
+
+    public LiveData<List<Story>> updateStories() {
         FirebaseModel.fbInstance.firebaseModelStory.getAllStories((storiesData) -> {
             stories.setValue(storiesData);
         });

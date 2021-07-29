@@ -26,11 +26,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_drawer);
         Toolbar toolbar = findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
+        Model.instance.updateStories();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_search, R.id.mainPage, R.id.userProfile, R.id.nav_logout)
+                R.id.nav_search, R.id.storiesFragment, R.id.userProfile, R.id.nav_logout)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

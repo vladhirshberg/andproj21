@@ -12,7 +12,9 @@ import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.our_stories.R;
 import com.example.our_stories.firebase_model.FirebaseModelChapter;
@@ -38,6 +40,7 @@ public class ChapterFragment extends Fragment {
     String chapterId;
     Long chapterNum;
     String storyId;
+    ProgressBar prog;
 
 
     public ChapterFragment() {
@@ -51,7 +54,6 @@ public class ChapterFragment extends Fragment {
         if (getArguments() != null) {
             chapterId = getArguments().getString("chapterId");
             storyId = getArguments().getString("storyId");
-            getChapterContent();
         }
     }
 
@@ -60,17 +62,25 @@ public class ChapterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.chapter_fragment, container, false);
+        prog = view.findViewById(R.id.chapter_fragment_progbar);
+        prog.setVisibility(View.INVISIBLE);
         content = view.findViewById(R.id.chapter_fragment_content_tv);
+        getChapterContent();
         return view;
     }
 
     private void getChapterContent(){
+        prog.setVisibility(View.VISIBLE);
         Model.firebaseModel.getChapterContentById(this.chapterId, new FirebaseModelChapter.IGetChapterContentListener() {
             @Override
             public void onComplete(String path) {
+                prog.setVisibility(View.INVISIBLE);
                 if (path != null){
                     content.setText(readChapter(path));
+                } else {
+                    Toast.makeText(getActivity(), "Failed to load chapter", Toast.LENGTH_LONG).show();
                 }
+
             }
         });
     }
