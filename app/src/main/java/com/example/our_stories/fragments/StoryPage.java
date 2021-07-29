@@ -17,9 +17,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -39,7 +39,7 @@ import com.squareup.picasso.Picasso;
 import java.util.LinkedList;
 import java.util.List;
 
-public class StoryPage extends Fragment implements ChapterRecyclerAdapter.chapterClickListener {
+public class StoryPage extends Fragment {
 
     static final int REQUEST_LOCAL_FILE = 1;
     private static final int LOCAL_SELECT_POSITION = 0;
@@ -54,6 +54,8 @@ public class StoryPage extends Fragment implements ChapterRecyclerAdapter.chapte
     private FloatingActionButton addChapterBtn;
     private ProgressBar progbar;
     Chapter newChapter;
+
+
 
     MutableLiveData<List<Chapter>> chapters;
 
@@ -89,8 +91,6 @@ public class StoryPage extends Fragment implements ChapterRecyclerAdapter.chapte
         setStoryData(storyId);
         chapters = new MutableLiveData<List<Chapter>>(new LinkedList<Chapter>());
 
-
-
         addChapterBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,17 +99,23 @@ public class StoryPage extends Fragment implements ChapterRecyclerAdapter.chapte
         });
 
         chapterList.setLayoutManager(new LinearLayoutManager(getActivity()));
-        Model.instance.firebaseModel.getChaptersByStoyId(storyId, new FirebaseModelChapter.IGetChaptersListener() {
+        Model.instance.firebaseModel.getChaptersByStoryId(storyId, new FirebaseModelChapter.IGetChaptersListener() {
             @Override
             public void onComplete(List<Chapter> chapterData) {
                 chapters.setValue(chapterData);
-                chapterAdapter = new ChapterRecyclerAdapter(getContext(), chapters.getValue());
-                chapterAdapter.setClickListener(StoryPage.this);
+                chapterAdapter = new ChapterRecyclerAdapter(chapters.getValue(), getLayoutInflater());
                 chapterList.setAdapter(chapterAdapter);
+                chapterAdapter.setOnItemClickListener(new ChapterRecyclerAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(View chapterView, int position) {
+                        Bundle args = new Bundle();
+                        args.putString("storyId", story.getId());
+                        args.putString("chapterId", chapters.getValue().get(position).getChapterId());
+                        Navigation.findNavController(view).navigate(R.id.action_storyPage_to_chapterFragment, args);
+                    }
+                });
             }
         });
-
-
 
         return view;
     }
@@ -124,10 +130,10 @@ public class StoryPage extends Fragment implements ChapterRecyclerAdapter.chapte
             @Override
             public void onComplete(Story storyData) {
                 story = storyData;
-//                if (!storyData.getAuthorId().equals(Model.instance.userId)) {
-//                    addChapterBtn.setVisibility(View.GONE);
-//                    addChapterBtn.setOnClickListener(null);
-//                }
+                if (!storyData.getAuthorId().equals(Model.instance.userId)) {
+                    addChapterBtn.setVisibility(View.GONE);
+                    addChapterBtn.setOnClickListener(null);
+                }
                 Picasso.get().load(storyData.getImagePath()).placeholder(R.drawable.appicon).error(R.drawable.appicon).into(mainImage);
                 title.setText(storyData.getTitle());
                 summary.setText(storyData.getSummary());
@@ -175,18 +181,27 @@ public class StoryPage extends Fragment implements ChapterRecyclerAdapter.chapte
         if (requestCode == REQUEST_LOCAL_FILE) {
             if (data != null) {
                 Uri contentURI = data.getData();
-                newChapter = Chapter.builder().storyId(story.getId()).chapterNum(1L).build();
-                Model.instance.firebaseModel.uploadChapter(Model.firebaseModel.getChapterNextId(), newChapter, contentURI, new FirebaseModelChapter.IAddChapterListener() {
+                newChapter = Chapter.builder().storyId(story.getId()).chapterNum(1L).chapterId(Model.firebaseModel.getChapterNextId()).build();
+                Model.instance.firebaseModel.uploadChapter(newChapter.getChapterId(), newChapter, contentURI, new FirebaseModelChapter.IAddChapterListener() {
                     @Override
                     public void onComplete(Long chapterNum) {
                         if(chapterNum != null){
-                            Model.instance.firebaseModel.getChaptersByStoyId(story.getId(), new FirebaseModelChapter.IGetChaptersListener() {
+                            Model.instance.firebaseModel.getChaptersByStoryId(story.getId(), new FirebaseModelChapter.IGetChaptersListener() {
                                 @Override
                                 public void onComplete(List<Chapter> chapterData) {
                                     chapters.setValue(chapterData);
-                                    chapterAdapter = new ChapterRecyclerAdapter(getActivity(), chapters.getValue());
-                                    chapterAdapter.setClickListener(StoryPage.this);
+                                    chapterAdapter = new ChapterRecyclerAdapter(chapters.getValue(), getLayoutInflater());
                                     chapterList.setAdapter(chapterAdapter);
+                                    chapterAdapter.setOnItemClickListener(new ChapterRecyclerAdapter.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClicked(View chapterView, int position) {
+                                            Bundle args = new Bundle();
+                                            args.putString("storyId", story.getId());
+                                            args.putString("chapterId", chapters.getValue().get(position).getChapterId());
+                                            //Toast.makeText(getActivity(), "args:" + story.getId() + "," + chapterId.toString(), Toast.LENGTH_LONG).show();
+                                            Navigation.findNavController(view).navigate(R.id.action_storyPage_to_chapterFragment, args);
+                                        }
+                                    });
                                 }
                             });
                         } else {
@@ -200,10 +215,5 @@ public class StoryPage extends Fragment implements ChapterRecyclerAdapter.chapte
 
             }
         }
-    }
-
-    @Override
-    public void onItemClick(View view, int position) {
-
     }
 }

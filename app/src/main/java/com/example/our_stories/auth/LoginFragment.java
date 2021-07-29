@@ -69,6 +69,9 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_login, container, false);
+        if(getArguments() != null && getArguments().getBoolean("logout")){
+            logout();
+        }
         email = this.view.findViewById(R.id.login_fragment_username);
         password = this.view.findViewById(R.id.login_fragment_pass);
         registerBtn = this.view.findViewById(R.id.login_fragment_register_btn);
@@ -90,6 +93,10 @@ public class LoginFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void logout() {
+        Model.firebaseModel.firebaseModelUser.signOut();
     }
 
     // This function handles login of existing user

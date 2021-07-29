@@ -102,10 +102,14 @@
             android:name="storyId"
             app:argType="string"/>
         <argument
-            android:name="chapterNum"
-            app:argType="Long"/>
+            android:name="chapterId"
+            app:argType="string"/>
     </fragment>
     <action android:id="@+id/action_global_user_profile" app:destination="@id/userProfile" />
     <action android:id="@+id/action_global_home" app:destination="@id/mainPage" />
-    <action android:id="@+id/nav_logout" app:destination="@id/loginFragment"/>
+    <action android:id="@+id/nav_logout" app:destination="@id/loginFragment">
+        <argument
+            android:name="logout"
+            app:argType="boolean"/>
+    </action>
 </navigation>

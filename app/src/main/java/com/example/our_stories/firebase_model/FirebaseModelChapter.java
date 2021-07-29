@@ -20,10 +20,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -68,7 +71,7 @@ public class FirebaseModelChapter{
                     nextChapter += 1;
                     newChapter.setChapterNum(nextChapter);
                 }
-                final StorageReference chapterRef = storage.getReference().child("chapters");
+                final StorageReference chapterRef = storage.getReference().child("chapters").child(chapterId);
                 UploadTask uploadTask = chapterRef.putFile(contentURI);
                 uploadTask.addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -116,7 +119,40 @@ public class FirebaseModelChapter{
         });
     }
 
+    public interface IGetChapterListener
+    {
+        void onComplete(Chapter chapter);
+    }
 
+    public interface IGetChapterContentListener
+    {
+        void onComplete(String path);
+    }
+
+    public void getChapterContentById(String chapterId, IGetChapterContentListener listener){
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        final StorageReference chapterRef = storage.getReference().child("chapters").child(chapterId);
+        File localFile = null;
+        try {
+            localFile = File.createTempFile(chapterId, "txt");
+        } catch (IOException e) {
+            listener.onComplete(null);
+        }
+
+        File finalLocalFile = localFile;
+        chapterRef.getFile(localFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                listener.onComplete(finalLocalFile.getAbsolutePath());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                finalLocalFile.deleteOnExit();
+                listener.onComplete(null);
+            }
+        });
+    }
 
 
 }

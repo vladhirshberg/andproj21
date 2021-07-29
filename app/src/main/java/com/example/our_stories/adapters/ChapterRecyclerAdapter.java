@@ -1,51 +1,45 @@
 package com.example.our_stories.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.our_stories.R;
 import com.example.our_stories.model.Chapter;
-import com.google.type.DateTime;
 
-import java.time.Instant;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.List;
 
 public class ChapterRecyclerAdapter extends RecyclerView.Adapter<ChapterRecyclerAdapter.ChapterViewHolder>{
-    private List<Chapter> chapters;
-    private LayoutInflater mInflater;
-    private chapterClickListener mClickListener;
+    private final List<Chapter> chapters;
+    private final LayoutInflater mInflater;
+    private OnItemClickListener listener;
 
+    public interface OnItemClickListener {
+        void onItemClicked(View view, int position);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener clickListener) {
+        this.listener = clickListener;
+    }
     // data is passed into the constructor
-    public ChapterRecyclerAdapter(Context context, List<Chapter> data) {
-        this.mInflater = LayoutInflater.from(context);
+    public ChapterRecyclerAdapter(List<Chapter> data , LayoutInflater inflater) {
         this.chapters = data;
+        this.mInflater = inflater;
     }
 
     // inflates the row layout from xml when needed
+    @NonNull
     @Override
-    public ChapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.chapter_row, parent, false);
-        return new ChapterViewHolder(view);
+    public ChapterViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.chapter_row, null, false);
+        return new ChapterViewHolder(view, listener);
     }
 
-    // binds the data to the TextView in each row
-    @Override
-    public void onBindViewHolder(ChapterViewHolder holder, int position) {
-        Chapter chapter = chapters.get(position);
-        ZoneId zoneId = ZoneId.of ( "GMT" );
-        ZonedDateTime zdt = ZonedDateTime.ofInstant ( Instant.ofEpochMilli(chapter.getDate()) , zoneId );
-        holder.date.setText(zdt.toString());
-        holder.chapterNum.setText(chapter.getChapterNum().toString());
-        holder.Title.setText(chapter.getTitle());
-        holder.chapterId = chapter.getChapterId();
-    }
 
     // total number of rows
     @Override
@@ -53,19 +47,44 @@ public class ChapterRecyclerAdapter extends RecyclerView.Adapter<ChapterRecycler
         return chapters.size();
     }
 
+    // binds the data to the TextView in each row
+    @Override
+    public void onBindViewHolder(ChapterViewHolder holder, int position) {
+        final Chapter chapter = chapters.get(position);
+//        ZoneId zoneId = ZoneId.of ( "GMT" );
+//        ZonedDateTime zdt = ZonedDateTime.ofInstant ( Instant.ofEpochMilli(chapter.getDate()) , zoneId );
+//        holder.date.setText(zdt.toString());
+        holder.date.setText("");
+        holder.chapterNum.setText(String.format("Chapter %d", chapter.getChapterNum()));
+        holder.title.setText(chapter.getTitle());
+        holder.chapterId = chapter.getChapterId();
+    }
 
     // stores and recycles views as they are scrolled off screen
-    public class ChapterViewHolder extends RecyclerView.ViewHolder {
-        TextView Title;
+    public static class ChapterViewHolder extends RecyclerView.ViewHolder {
+        TextView title;
         TextView chapterNum;
         TextView date;
         String chapterId;
 
-        ChapterViewHolder(View itemView) {
+        ChapterViewHolder(View itemView, final OnItemClickListener onClickListener) {
             super(itemView);
-            Title = itemView.findViewById(R.id.chapter_row_title);
+            title = itemView.findViewById(R.id.chapter_row_title);
             chapterNum = itemView.findViewById(R.id.chapter_row_number);
             date = itemView.findViewById(R.id.chapter_row_date);
+
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onClickListener != null) {
+                        int position = getBindingAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onClickListener.onItemClicked(view, position);
+                        }
+                    }
+                }
+            });
         }
 
     }
@@ -75,13 +94,9 @@ public class ChapterRecyclerAdapter extends RecyclerView.Adapter<ChapterRecycler
         return chapters.get(id);
     }
 
-    // allows clicks events to be caught
-    public void setClickListener(chapterClickListener listener) {
-        this.mClickListener = listener;
-    }
 
     // parent activity will implement this method to respond to click events
     public interface chapterClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(ChapterViewHolder view, int position);
     }
 }

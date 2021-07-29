@@ -8,7 +8,7 @@ import androidx.room.TypeConverters;
 
 import com.example.our_stories.MyApplication;
 
-@Database(entities = {User.class, Story.class}, version = 3)
+@Database(entities = {User.class, Story.class}, version = 4)
 @TypeConverters({Converter.class})
 abstract class LocalDBRepository extends RoomDatabase {
     public abstract UserDao userDao();
@@ -19,7 +19,7 @@ public class LocalDB{
     final static public LocalDBRepository db =
             Room.databaseBuilder(MyApplication.context,
                     LocalDBRepository.class,
-                    "dbFileName.db")
+                    "dbFileNameA.db")
                     .fallbackToDestructiveMigration()
                     .build();
 }

@@ -65,7 +65,6 @@ public class RegisterFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_register, container, false);
-        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         username = view.findViewById(R.id.register_fragment_username);
         email = view.findViewById(R.id.register_fragment_email);
         password = view.findViewById(R.id.register_fragment_pass);

@@ -80,10 +80,13 @@
             android:visibility="invisible"
             android:layout_centerInParent="true"/>
 
-            <include layout="@layout/chapters_layout"/>
+            <include layout="@layout/chapters_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
 
             <include layout="@layout/comments_layout"
-                android:id="@+id/story_fragment_comments_rv"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>"
     </ScrollView>
 

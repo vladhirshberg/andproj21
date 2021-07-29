@@ -1,56 +1,44 @@
 package com.example.our_stories.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.our_stories.R;
-import com.example.our_stories.firebase_model.FirebaseModelUser;
 import com.example.our_stories.model.Comment;
-import com.example.our_stories.model.User;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
-public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecyclerAdapter.ViewHolder>{
-    private List<Comment> comments;
-    private LayoutInflater mInflater;
+public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecyclerAdapter.CommentViewHolder>{
+    private final List<Comment> comments;
+    private final LayoutInflater mInflater;
+    private CommentRecyclerAdapter.OnItemClickListener listener;
 
+    public interface OnItemClickListener {
+        void onItemClicked(View view, int position);
+    }
+
+    public void setOnItemClickListener(CommentRecyclerAdapter.OnItemClickListener clickListener) {
+        this.listener = clickListener;
+    }
     // data is passed into the constructor
-    CommentRecyclerAdapter(Context context, List<Comment> data) {
-        this.mInflater = LayoutInflater.from(context);
+    public CommentRecyclerAdapter(List<Comment> data , LayoutInflater inflater) {
         this.comments = data;
+        this.mInflater = inflater;
     }
 
     // inflates the row layout from xml when needed
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.comment_row, parent, false);
-        return new ViewHolder(view);
+    public CommentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = mInflater.inflate(R.layout.comment_row, null, false);
+        return new CommentViewHolder(view, listener);
     }
 
-    // binds the data to the TextView in each row
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Comment comment = comments.get(position);
-        holder.author = null;
-        FirebaseModelUser users = new FirebaseModelUser();
-        users.getUserById(comment.getUserId(), new FirebaseModelUser.IGetUserByIdCallback() {
-            @Override
-            public void onComplete(User user) {
-                holder.author = user;
-            }
-        });
-        Picasso.get().load(holder.author.imagePath).placeholder(R.drawable.baseline_account_circle_24).error(R.drawable.baseline_account_circle_24).into(holder.avatar);
-        holder.username.setText(holder.author.username);
-        holder.comment.setText(comment.getContent());
-    }
 
     // total number of rows
     @Override
@@ -58,19 +46,35 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
         return comments.size();
     }
 
+    // binds the data to the TextView in each row
+    @Override
+    public void onBindViewHolder(CommentViewHolder holder, int position) {
+        final Comment Comment = comments.get(position);
+        holder.comment.setText("Comment");
+        holder.username.setText(Comment.getUserId());
+    }
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView avatar;
+    public static class CommentViewHolder extends RecyclerView.ViewHolder {
         TextView comment;
-        User author;
         TextView username;
 
-        ViewHolder(View itemView) {
+        CommentViewHolder(View itemView, final CommentRecyclerAdapter.OnItemClickListener onClickListener) {
             super(itemView);
-            avatar = itemView.findViewById(R.id.comment_row_avatar);
             comment = itemView.findViewById(R.id.comment_row_comment);
             username = itemView.findViewById(R.id.comment_row_username);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onClickListener != null) {
+                        int position = getBindingAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            onClickListener.onItemClicked(view, position);
+                        }
+                    }
+                }
+            });
         }
 
     }
@@ -79,4 +83,11 @@ public class CommentRecyclerAdapter extends RecyclerView.Adapter<CommentRecycler
     Comment getItem(int id) {
         return comments.get(id);
     }
+
+
+    // parent activity will implement this method to respond to click events
+    public interface CommentClickListener {
+        void onItemClick(CommentViewHolder view, int position);
+    }
+
 }

@@ -79,7 +79,11 @@ public class FirebaseModel {
         firebaseModelStory.addStory(newStory, mainImage, listener);
     }
 
-    public void getChaptersByStoyId(String storyId, FirebaseModelChapter.IGetChaptersListener listener) {
+    public void getChaptersByStoryId(String storyId, FirebaseModelChapter.IGetChaptersListener listener) {
         firebaseModelChapter.getChaptersByStoryId(storyId, listener);
+    }
+
+    public void getChapterContentById(String chapterId, FirebaseModelChapter.IGetChapterContentListener listener){
+        firebaseModelChapter.getChapterContentById(chapterId, listener);
     }
 }
