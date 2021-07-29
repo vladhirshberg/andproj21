@@ -20,6 +20,10 @@ public class Model {
     public static String userId = null;
     public static FirebaseModel firebaseModel;
 
+    MutableLiveData<List<Story>> stories = new MutableLiveData<List<Story>>(new LinkedList<Story>());
+    MutableLiveData<List<User>> users = new MutableLiveData<List<User>>(new LinkedList<User>());
+
+
     public static Model instance = new Model();
 
     private Model(){
@@ -61,7 +65,6 @@ public class Model {
         });
     }
 
-    MutableLiveData<List<Story>> stories = new MutableLiveData<List<Story>>(new LinkedList<Story>());
 
     public void addStory(Story newStory, Bitmap mainImage, FirebaseModelStory.IAddStory listener) {
         firebaseModel.addStory(newStory, mainImage, listener);

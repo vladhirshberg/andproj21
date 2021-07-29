@@ -175,7 +175,7 @@ public class NewStoryFragment extends Fragment {
     // gallery and camera
     private void ShowImageDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.image_edit_title).setItems(R.array.image_array,
+        builder.setTitle(R.string.story_cover_title).setItems(R.array.image_array,
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == GALLERY_POSITION) {

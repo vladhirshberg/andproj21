@@ -1,9 +1,16 @@
 <resources>
     <string name="app_name">Our Stories</string>
     <string name="image_edit_title">Edit Profile Picture</string>
+    <string name="story_cover_title">Select Story Cover</string>
+    <string name="file_select_title">Select Chapter File</string>
     <string-array name="image_array">
         <item>Gallery</item>
         <item>Camera</item>
+        <item>Cancel</item>
+    </string-array>
+
+    <string-array name="file_array">
+        <item>Local</item>
         <item>Cancel</item>
     </string-array>
 

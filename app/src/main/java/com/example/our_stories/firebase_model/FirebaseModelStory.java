@@ -113,8 +113,7 @@ public class FirebaseModelStory extends FirebaseGeneral{
                 newStory.setImagePath(uri);
                 // Sign in success, update UI with the signed-in user's information
                 Log.d("TAG", "add new story");
-                db.collection(STORIES_KEY).document(newStory.getId())
-                        .set(newStory.toJson());
+                db.collection(STORIES_KEY).document(newStory.getId()).set(newStory.toJson());
                 listener.onComplete();
             }
         });

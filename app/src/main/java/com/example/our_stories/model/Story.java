@@ -1,18 +1,28 @@
 package com.example.our_stories.model;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.our_stories.R;
 import com.example.our_stories.enums.Genre;
+import com.google.firebase.firestore.FieldValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonPrimitive;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,7 +54,7 @@ public class Story {
     private List<Genre> genres;
     private List<Chapter> chapters;
     private List<Comment> comments;
-    private String date;
+    private Long date;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public Map<String,Object> toJson() {
@@ -54,7 +64,7 @@ public class Story {
         json.put("name", this.title);
         json.put("summary", this.summary);
         json.put("imagePath", this.imagePath);
-        json.put("date", LocalDateTime.now().toString());
+        json.put("date", System.currentTimeMillis());
         List<String> genreString = new ArrayList<>();
         this.genres.forEach(genre -> genreString.add(genre.name()));
         Gson genreJson = new GsonBuilder().create();
@@ -84,9 +94,11 @@ public class Story {
         story.title = (String)json.get("name");
         story.summary = (String)json.get("summary");
         story.imagePath = (String)json.get("imagePath");
-        story.date = (String)json.get("date");
+        story.date = (Long)json.get("date");
         List<Genre> genres = new ArrayList<Genre>();
         story.genres = genres;
         return story;
     }
+
+
 }

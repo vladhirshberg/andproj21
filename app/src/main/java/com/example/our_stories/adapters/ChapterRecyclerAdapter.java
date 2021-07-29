@@ -10,32 +10,40 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.our_stories.R;
 import com.example.our_stories.model.Chapter;
-import com.example.our_stories.model.Comment;
+import com.google.type.DateTime;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 
-public class ChapterRecyclerAdapter extends RecyclerView.Adapter<ChapterRecyclerAdapter.ViewHolder>{
+public class ChapterRecyclerAdapter extends RecyclerView.Adapter<ChapterRecyclerAdapter.ChapterViewHolder>{
     private List<Chapter> chapters;
     private LayoutInflater mInflater;
     private chapterClickListener mClickListener;
 
     // data is passed into the constructor
-    ChapterRecyclerAdapter(Context context, List<Chapter> data) {
+    public ChapterRecyclerAdapter(Context context, List<Chapter> data) {
         this.mInflater = LayoutInflater.from(context);
         this.chapters = data;
     }
 
     // inflates the row layout from xml when needed
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ChapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.chapter_row, parent, false);
-        return new ViewHolder(view);
+        return new ChapterViewHolder(view);
     }
 
     // binds the data to the TextView in each row
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-
+    public void onBindViewHolder(ChapterViewHolder holder, int position) {
+        Chapter chapter = chapters.get(position);
+        ZoneId zoneId = ZoneId.of ( "GMT" );
+        ZonedDateTime zdt = ZonedDateTime.ofInstant ( Instant.ofEpochMilli(chapter.getDate()) , zoneId );
+        holder.date.setText(zdt.toString());
+        holder.chapterNum.setText(chapter.getChapterNum().toString());
+        holder.Title.setText(chapter.getTitle());
     }
 
     // total number of rows
@@ -46,12 +54,12 @@ public class ChapterRecyclerAdapter extends RecyclerView.Adapter<ChapterRecycler
 
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ChapterViewHolder extends RecyclerView.ViewHolder {
         TextView Title;
         TextView chapterNum;
         TextView date;
 
-        ViewHolder(View itemView) {
+        ChapterViewHolder(View itemView) {
             super(itemView);
             Title = itemView.findViewById(R.id.chapter_row_title);
             chapterNum = itemView.findViewById(R.id.chapter_row_number);
@@ -66,7 +74,7 @@ public class ChapterRecyclerAdapter extends RecyclerView.Adapter<ChapterRecycler
     }
 
     // allows clicks events to be caught
-    void setClickListener(chapterClickListener listener) {
+    public void setClickListener(chapterClickListener listener) {
         this.mClickListener = listener;
     }
 

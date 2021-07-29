@@ -1,8 +1,10 @@
 package com.example.our_stories.firebase_model;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.util.Log;
 
+import com.example.our_stories.model.Chapter;
 import com.example.our_stories.model.Story;
 import com.example.our_stories.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -10,6 +12,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.net.URI;
 
 public class FirebaseModel {
 
@@ -31,6 +35,14 @@ public class FirebaseModel {
 
     public void addUser(User newUser, Bitmap image, final FirebaseModelUser.IGetUserListener listener) {
         firebaseModelUser.addUser(newUser, image, listener);
+    }
+
+    public String getChapterNextId(){
+        return firebaseModelChapter.getChapterNextId();
+    }
+
+    public void uploadChapter(String chapterId, Chapter newChapter, Uri contentURI, FirebaseModelChapter.IAddChapterListener listener){
+        firebaseModelChapter.uploadChapter(chapterId, newChapter, contentURI, listener);
     }
 
     public void userLogin(String email, String password, final FirebaseModelUser.IGetUserListener listener) {
@@ -65,5 +77,9 @@ public class FirebaseModel {
 
     public void addStory(Story newStory, Bitmap mainImage, FirebaseModelStory.IAddStory listener) {
         firebaseModelStory.addStory(newStory, mainImage, listener);
+    }
+
+    public void getChaptersByStoyId(String storyId, FirebaseModelChapter.IGetChaptersListener listener) {
+        firebaseModelChapter.getChaptersByStoryId(storyId, listener);
     }
 }
